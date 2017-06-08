@@ -8,7 +8,7 @@ notifications:
   email: false
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia --check-bounds=yes -e 'Pkg.checkout("DistributedArrays)' # temporarily checkout master until 0.6 is release and DA tagged
+  - julia --check-bounds=yes -e 'Pkg.checkout("DistributedArrays")' # temporarily checkout master until 0.6 is release and DA tagged
   - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.build("DistributedStatistics"); Pkg.test("DistributedStatistics"; coverage=true)'
 after_success:
   - julia -e 'cd(Pkg.dir("DistributedStatistics")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(process_folder())'
