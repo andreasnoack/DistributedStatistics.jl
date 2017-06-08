@@ -2,8 +2,8 @@ __precompile__()
 
 module DistributedStatistics
 
-using DistributedArrays
-using StatsBase
+using Reexport
+@reexport using DistributedArrays, StatsBase
 
 # Extend support of fit(Histogram, vs)
 function StatsBase.append!(h::AbstractHistogram{T,N}, vs::NTuple{N,DistributedArrays.DVector}) where {T,N}
