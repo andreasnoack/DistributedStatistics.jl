@@ -14,10 +14,10 @@ function StatsBase.append!(h::AbstractHistogram{T,N}, vs::NTuple{N,DistributedAr
     end
     return merge!(hs...)
 end
-function append!(h::AbstractHistogram{T,N}, vs::NTuple{N,DistributedArrays.DVector}, wv::DistributedArrays.DVector) where {T,N}
+function StatsBase.append!(h::AbstractHistogram{T,N}, vs::NTuple{N,DistributedArrays.DVector}, wv::DistributedArrays.DVector) where {T,N}
     hs = asyncmap(procs(vs[1])) do p
         remotecall_fetch(p) do
-            hl = append!(h, localpart.(vs), wv)
+            hl = append!(h, localpart.(vs), localpart(wv))
         end
     end
     return merge!(hs...)
